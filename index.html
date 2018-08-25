@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>carousel module</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="kjhz" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="" />
+</head>
+<body>
+    <!-- 主轮播图 -->
+    <div id="mainCarousel" style="width: 1120px"></div>
+
+    <script src="./js/carousel.js"></script>
+    <script>
+        const carousel = new Carousel({
+            wrap: document.querySelector("#mainCarousel"),
+            urlArr: ["images/1.jpg",
+                     "images/2.jpg",
+                     "images/3.jpg",
+                     "images/4.jpg",
+                     "images/5.jpg"],
+            details: ["第一张图的说明",
+            		 "第二张图的说明",
+            		 "第三张图的说明",
+            		 "第四张图的说明",
+            		 "第五张图的说明"]
+        });
+    </script>
+</body>
+</html>
