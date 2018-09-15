@@ -6,10 +6,11 @@ class Carousel {
 		this.activePage = 0;                    //轮播图当前页
 		this.imgNumber = obj.urlArr.length;     //图片数
 		this.settimeID;                         //定时器ID
-		this.init(obj.urlArr, obj.details);     //初始化
+		this.init(obj);     //初始化
 	}
 
-	init(urlArr, details) {                   //创建DOM结构
+	init(obj) {                   //创建DOM结构
+		const {urlArr, details, hrefs} = obj;
 		this.wrap.className = "carousel";
 		this.wrap.innerHTML = `<span id="${this.wrapId}_prev"></span>
                                 <span id="${this.wrapId}_next"></span>
@@ -18,22 +19,23 @@ class Carousel {
 
 		const container = document.querySelector(`#${this.wrapId}_container`)
 			,page = document.querySelector(`#${this.wrapId}_page`);
-		let i = 0;
-		container.innerHTML = `<img src="${urlArr[0]}">`;	//让一张图片撑起大小
-		for (let value of urlArr) {            	//注入图片和方块
-			container.innerHTML += `<li class="${this.wrapId}_img-item"><img src="${value}"></li>`;
+		container.innerHTML = `<img src="${urlArr[0]}">`;	//让一张图片撑起容器大小
+		for(let i=0;i<urlArr.length; i++) {	//遍历以创建轮播图结构
+			if(hrefs[i]) {
+				container.innerHTML += `<li class="${this.wrapId}_img-item"><a href="${hrefs[i]}"><img src="${urlArr[i]}"></a></li>`;				
+			} else {
+				container.innerHTML += `<li class="${this.wrapId}_img-item"><img src="${urlArr[i]}"></li>`;
+			}
 			page.innerHTML += `<span class="${this.wrapId}_pagination">${i}</span>`;
-			i++;
 		}
 
 		const img_items = document.querySelectorAll(`.${this.wrapId}_img-item`);
 		if (details) {							//创建图片文本说明
-			let j = 0;
-			for (let value of details) {
+			for (let j=0; j<img_items.length; j++) {
+				if (details[j] == "") continue;
 				let para = document.createElement("p");
-				para.textContent = value;
+				para.textContent = details[j];
 				img_items[j].appendChild(para);
-				j++;
 			}
 		}
 		
@@ -95,7 +97,7 @@ class Carousel {
 	setTime() {                                 //自动播放
 		this.settimeID = setInterval(() => {
 			document.querySelector(`#${this.wrapId}_next`).click();
-		}, 5000);
+		}, 2500);
 	}
 	claerTime() {                               //鼠标悬浮取消自动播放
 		let theId = this.settimeID;             //解决this绑定丢失
